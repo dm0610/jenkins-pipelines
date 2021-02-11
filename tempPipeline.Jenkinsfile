@@ -14,7 +14,7 @@ pipeline {
         stage('VALIDATE BUILD_NUMBER') {
             steps {
                 script {
-                    if ( env.BUILD_NUMBER.toInteger() <=1 ) {
+                    if ( env.BUILD_NUMBER.toInteger() >1 ) {
                         echo "IT'S OK!"
                     } else {
                         currentBuild.result = 'ABORTED'
