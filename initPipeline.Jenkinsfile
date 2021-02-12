@@ -27,7 +27,7 @@ pipeline {
                         echo "This is JOB_RES: ${JOB_RES}"
                         if ("${JOB_RES}" == "ABORTED") {
                             sh "sleep 5"
-                            continue
+                            break
                         } else {
                             sh "sleep 10"
                         }
