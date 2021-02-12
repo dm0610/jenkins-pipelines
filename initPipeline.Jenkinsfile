@@ -19,7 +19,7 @@ pipeline {
                 script {
                     
                     
-                    CRUMB = sh "curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat\(//crumbRequestField,':',//crumb\)"
+                    CRUMB = sh "curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat\(\/\/crumbRequestField,':',\/\/crumb\)"
                     echo "this is CRUMB: ${CRUMB}"
                     //while (true) {
                         
