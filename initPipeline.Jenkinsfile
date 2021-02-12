@@ -20,8 +20,8 @@ pipeline {
                     
                     
                     sh """ 
-                    CRUMB=$(curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/json | jq -r ".crumb")
-                    CRUMB="Jenkins-Crumb: ${CRUMB_KEY}"
+                    CRUMB=$(curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/json | jq -r \".crumb\")
+                    CRUMB="Jenkins-Crumb: ${CRUMB}"
                     """
                     echo "this is CRUMB: ${CRUMB}"
                     //while (true) {
