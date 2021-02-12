@@ -19,8 +19,8 @@ pipeline {
                 script {
                     
                     
-                    CRUMB_KEY = sh """ curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/json | jq -r ".crumb" """
-                    CRUMB="Jenkins-Crumb: ${CRUMB_KEY}"
+                    CRUMB = sh """ curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/json | jq -r ".crumb" """
+                    CRUMB = "Jenkins-Crumb: ${CRUMB_KEY}"
 
                     echo "this is CRUMB: ${CRUMB}"
                     //while (true) {
