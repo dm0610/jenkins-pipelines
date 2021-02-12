@@ -21,7 +21,9 @@ pipeline {
                         CRUMB=$(curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,':',//crumb))
                     """
                     for (true) {
-                        curl -s -H "$CRUMB" --user ${USER_NAME}:${API_KEY} -X GET "http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r '.result'"
+                        sh """ 
+                        curl -s -H $CRUMB --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r '.result'
+                        """
                         break
                         
                     }
