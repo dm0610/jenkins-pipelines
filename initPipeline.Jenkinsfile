@@ -21,13 +21,13 @@ pipeline {
                     CRUMB = sh (script: "curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/json | jq -r \".crumb\"", returnStdout: true).trim()
                     CRUMB="Jenkins-Crumb:${CRUMB}"
                     echo "this is CRUMB: ${CRUMB}"
-                    //while (true) {
+                    while (true) {
                         
-                    JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
-                    echo "This is JOB_RES: ${JOB_RES}"
+                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
+                        echo "This is JOB_RES: ${JOB_RES}"
                         break
                         
-                    //}
+                    }
                     if (true) {
                         //error('RECREATE_PODS should be false if FRONTEND_STUB is true')
                         echo 'Check harbor availability ...'
