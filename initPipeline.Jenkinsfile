@@ -19,11 +19,11 @@ pipeline {
                 script {
                     
                     CRUMB = sh (script: "curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/json | jq -r \".crumb\"", returnStdout: true).trim()
-                    CRUMB="Jenkins-Crumb: ${CRUMB}"
+                    CRUMB="Jenkins-Crumb:${CRUMB}"
                     echo "this is CRUMB: ${CRUMB}"
                     //while (true) {
                         
-                    JOB_RES = sh """ curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r ".result" """
+                    JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                     echo "This is JOB_RES: ${JOB_RES}"
                         break
                         
