@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     
-                    sh(CRUMB=$(curl -s -X GET "http://${USER_NAME}:${API_KEY}@${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,':',//crumb)"))
+                    CRUMB=$(curl -s -X GET "http://${USER_NAME}:${API_KEY}@${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,':',//crumb)")
                     
                     for (true) {
                         curl -s -H "$CRUMB" --X GET "http://${USER_NAME}:${API_KEY}@${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r '.result'"
