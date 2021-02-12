@@ -23,10 +23,10 @@ pipeline {
                     echo "this is CRUMB: ${CRUMB}"
                     while (true) {
                         
-                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
+                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/currentBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                         echo "This is JOB_RES: ${JOB_RES}"
                         if ("${JOB_RES}" == "ABORTED") {
-                            sh "sleep 5"
+
                             break
                         } else {
                             sh "sleep 10"
