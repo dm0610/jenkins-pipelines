@@ -1,7 +1,12 @@
 
 def HARBOR_IS_AVAILABLE = true
 def JENKINS_JOB_IS_AVAILABLE = true
-
+def CRUMB = ""
+def PARRENT_JOB = "job/test1/"
+def TAG_JOB = "job/dev"
+def USER_NAME = "user"
+def PASSWD = "1qaz2wsx"
+def API_KEY = "11244bd7b5e06718b0967446b8f99b0077"
 pipeline {
     agent any
     parameters {
@@ -11,6 +16,13 @@ pipeline {
         stage('VALIDATE PARAMETERS') {
             steps {
                 script {
+                    
+                    CRUMB=$(curl -s --user dm0610:"${API_KEY}" -X GET "http://${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,':',//crumb)")
+                    for (true) {
+                        curl -s -H "$CRUMB" --user dm0610:"${API_KEY}" -X GET "http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r '.result'"
+                        break
+                        
+                    }
                     if (true) {
                         //error('RECREATE_PODS should be false if FRONTEND_STUB is true')
                         echo 'Check harbor availability ...'
