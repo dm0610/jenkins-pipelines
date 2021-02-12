@@ -16,9 +16,9 @@ pipeline {
         stage('VALIDATE PARAMETERS') {
             steps {
                 script {
-                    sh """
-                    CRUMB=$(curl -s --user dm0610:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,':',//crumb))
-                    """
+                    
+                    CRUMB=$(curl -s --user dm0610:"${API_KEY}" -X GET "http://${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,':',//crumb)")
+                    
                     for (true) {
                         curl -s -H "$CRUMB" --user dm0610:"${API_KEY}" -X GET "http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r '.result'"
                         break
