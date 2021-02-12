@@ -20,13 +20,13 @@ pipeline {
                     
                     CRUMB = sh("curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,':',//crumb)")
                     echo "this is CRUMB: ${CRUMB}"
-                    while (true) {
+                    //while (true) {
                         
                         JOB_RES = sh("curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r '.result'")
                         echo "This is JOB_RES: ${JOB_RES}"
                         break
                         
-                    }
+                    //}
                     if (true) {
                         //error('RECREATE_PODS should be false if FRONTEND_STUB is true')
                         echo 'Check harbor availability ...'
