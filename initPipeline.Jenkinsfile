@@ -7,6 +7,7 @@ def TAG_JOB = "job/dev"
 def USER_NAME = "user"
 def PASSWD = "1qaz2wsx"
 def API_KEY = "11244bd7b5e06718b0967446b8f99b0077"
+def TARGET_HOST = "192.168.1.41"
 pipeline {
     agent any
 //    parameters {
@@ -20,13 +21,13 @@ pipeline {
                     
                     CRUMB = sh("curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,':',//crumb)")
                     echo "this is CRUMB: ${CRUMB}"
-                    /*//while (true) {
+                    while (true) {
                         
                         JOB_RES = sh("curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r '.result'")
                         echo "This is JOB_RES: ${JOB_RES}"
                         break
                         
-                    //}
+                    }
                     if (true) {
                         //error('RECREATE_PODS should be false if FRONTEND_STUB is true')
                         echo 'Check harbor availability ...'
@@ -34,7 +35,7 @@ pipeline {
                         echo 'Check jenkins availability ...'
 
                         echo 'Check gitlab availability ...'
-                    }*/
+                    }
                 }
             }
         }
