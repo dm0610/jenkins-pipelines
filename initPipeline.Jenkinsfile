@@ -2,7 +2,7 @@
 def HARBOR_IS_AVAILABLE = true
 def JENKINS_JOB_IS_AVAILABLE = true
 def CRUMB = ""
-def PARRENT_JOB = "job/test1/"
+def PARRENT_JOB = "job/test1"
 def TAG_JOB = "job/dev"
 def USER_NAME = "user"
 def PASSWD = "1qaz2wsx"
@@ -23,7 +23,7 @@ pipeline {
                     echo "this is CRUMB: ${CRUMB}"
                     while (true) {
                         
-                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/currentBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
+                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/${currentBuild.number}/api/json | jq -r \".result\"", returnStdout: true).trim()
                         echo "This is JOB_RES: ${JOB_RES}"
                         if ("${JOB_RES}" == "ABORTED") {
 
