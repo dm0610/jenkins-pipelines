@@ -17,20 +17,6 @@ pipeline {
         stage('VALIDATE PARAMETERS') {
             steps {
                 script {
-                    
-                    CRUMB = sh (script: "curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/json | jq -r \".crumb\"", returnStdout: true).trim()
-                    CRUMB="Jenkins-Crumb:${CRUMB}"
-                    echo "this is CRUMB: ${CRUMB}"
-                    while (true) {
-                        
-                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
-                        echo "This is JOB_RES: ${JOB_RES}"
-                        if ("${JOB_RES}" == "ABORTED") {
-                            break
-                        } else {
-                            sh "sleep 10"
-                        }
-                    }
                     if (true) {
                         //error('RECREATE_PODS should be false if FRONTEND_STUB is true')
                         echo 'Check harbor availability ...'
@@ -64,6 +50,25 @@ pipeline {
             }
             steps {
                 script {
+                    //Считываем CRUMB удаленного jenkins********************
+                    CRUMB = sh (script: "curl -s --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/crumbIssuer/api/json | jq -r \".crumb\"", returnStdout: true).trim()
+                    CRUMB="Jenkins-Crumb:${CRUMB}"
+                    echo "this is CRUMB: ${CRUMB}"
+                    //******************************************************
+                    def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/buildWithParameters \
+                            --data STOP_PODS='true' \
+                            --data BACKUP_DB='false'", returnStdout: true).trim()
+                    while (true) {
+                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
+                        echo "This is JOB_RES: ${JOB_RES}"
+                        if ("${JOB_RES}" == "ABORTED") {
+                            break
+                        } else {
+                            sh "sleep 10"
+                        }
+                    }
+
+
                     echo 'Starting remote jenkins job'
                 }
             }
