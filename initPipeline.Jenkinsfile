@@ -57,7 +57,7 @@ pipeline {
                     //******************************************************
                     def LAST_BUILD = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/api/json | jq -r \".lastBuild\"", returnStdout: true).trim()
                     echo "${LAST_BUILD}"
-                    if ("${LAST_BUILD}" == null) {
+                    if ("${LAST_BUILD}" == "null") {
                         echo "1"
                         def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X POST http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/build", returnStdout: true).trim()
                         echo "2"
@@ -80,7 +80,7 @@ pipeline {
                                 }
                             }
                         }
-                    } else {
+                    } else if ("${LAST_BUILD}" != "null") {
                         while (true) {
                             JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                             echo "This is JOB_RES: ${JOB_RES}"
