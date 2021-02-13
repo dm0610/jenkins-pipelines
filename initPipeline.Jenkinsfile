@@ -101,16 +101,13 @@ pipeline {
                             if ("${JOB_STATE}" != "blue" && "${JOB_STATE}" != "aborted" && "${JOB_STATE}" != "red")  {
                                 continue
                             } else {
+
                                 JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                                 echo "This is JOB_RES: ${JOB_RES}"
-                                //| jq -r ".color" | grep anime
-                                echo "*****************************************************************************************************************"
                                 echo "*******************************************PIPELINE-LOG**********************************************************"
-                                echo "*****************************************************************************************************************"
-                                sh """curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/consoleText"""
-                                echo "*****************************************************************************************************************"
+                                sh """wait curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/consoleText"""
                                 echo "*****************************************END-PIPELINE-LOG********************************************************"
-                                echo "*****************************************************************************************************************"
+                              
                                 break
                                 
 
