@@ -105,7 +105,7 @@ pipeline {
                                 JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                                 echo "This is JOB_RES: ${JOB_RES}"
                                 echo "*******************************************PIPELINE-LOG**********************************************************"
-                                sh """curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/consoleText"""
+                                sh """curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/timestamps?appendLog&elapsed=HH:mm:ss.S"""
                                 echo "*****************************************END-PIPELINE-LOG********************************************************"
                                 break
                                 
