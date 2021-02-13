@@ -98,7 +98,7 @@ pipeline {
                             sh "sleep 5"
                             JOB_STATE = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/api/json | jq -r \".color\"", returnStdout: true).trim()
                             echo "JOB_STATE: ${JOB_STATE}.contains("anime")"
-                            if (JOB_STATE != "blue" && JOB_STATE != "aborted" JOB_STATE != "red")  {
+                            if ("${JOB_STATE}" != "blue" && "${JOB_STATE}" != "aborted" && "${JOB_STATE}" != "red")  {
                                 continue
                             } else {
                                 JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
