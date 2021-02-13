@@ -57,19 +57,23 @@ pipeline {
                     //******************************************************
                     def LAST_BUILD = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/api/json | jq -r \".lastBuild\"", returnStdout: true).trim()
                     if (LAST_BUILD == null) {
+                        echo "1"
                         def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X POST http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/build", returnStdout: true).trim()
+                        echo "2"
                         while (true) {
                             JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                             echo "This is JOB_RES: ${JOB_RES}"
-
+                        echo "3"
                             if ("${JOB_RES}" == "ABORTED") {
                                 JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X POST http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/buildWithParameters \
                                     --data STOP_PODS=\'true\' \
                                     --data BACKUP_DB=\'false\'", returnStdout: true).trim()
+                                    echo "4"
                             } else {
                                 sh "sleep 10"
                                 JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                                 echo "This is JOB_RES: ${JOB_RES}"
+                                echo "5"
                                 if ("${JOB_RES}" == "SUCCESS") {
                                     break
                                 }
