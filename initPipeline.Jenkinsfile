@@ -55,13 +55,13 @@ pipeline {
                     CRUMB="Jenkins-Crumb:${CRUMB}"
                     echo "this is CRUMB: ${CRUMB}"
                     //******************************************************
-                    def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X POST http://${TARGET_HOST}:8080/${PARRENT_JOB}/${TAG_JOB}/buildWithParameters \
+/*                    def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X POST http://${TARGET_HOST}:8080/${PARRENT_JOB}/${TAG_JOB}/buildWithParameters \
                             --data STOP_PODS=\'true\' \
                             --data BACKUP_DB=\'false\'", returnStdout: true).trim()
-
-//                    def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X ЗQW http://${TARGET_HOST}:8080/${PARRENT_JOB}/${TAG_JOB}/build", returnStdout: true).trim()
-
-                    echo "This is JOB_START: ${JOB_START}"
+*/
+                    def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X POST http://${TARGET_HOST}:8080/${PARRENT_JOB}/${TAG_JOB}/build", returnStdout: true).trim()
+                    echo 'Starting remote jenkins job'
+//                    echo "This is JOB_START: ${JOB_START}"
 /*                    while (true) {
                         JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/${TAG_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                         echo "This is JOB_RES: ${JOB_RES}"
@@ -73,7 +73,7 @@ pipeline {
                     }*/
 
 
-                    echo 'Starting remote jenkins job'
+
                 }
             }
         }
