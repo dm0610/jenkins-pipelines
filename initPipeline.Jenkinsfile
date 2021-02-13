@@ -63,7 +63,7 @@ pipeline {
                             echo "This is JOB_RES: ${JOB_RES}"
 
                             if ("${JOB_RES}" == "ABORTED") {
-                                def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X POST http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/buildWithParameters \
+                                JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X POST http://${TARGET_HOST}:8080/${PARRENT_JOB}${TAG_JOB}/buildWithParameters \
                                     --data STOP_PODS=\'true\' \
                                     --data BACKUP_DB=\'false\'", returnStdout: true).trim()
                             } else {
