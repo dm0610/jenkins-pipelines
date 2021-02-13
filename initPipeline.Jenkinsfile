@@ -2,7 +2,7 @@
 def HARBOR_IS_AVAILABLE = true
 def JENKINS_JOB_IS_AVAILABLE = true
 def CRUMB = ""
-def PARRENT_JOB = "job/test1"
+def PARRENT_JOB = "job/mbp-test1"
 def TAG_JOB = "job/dev"
 def USER_NAME = "user"
 def PASSWD = "1qaz2wsx"
@@ -55,11 +55,12 @@ pipeline {
                     CRUMB="Jenkins-Crumb:${CRUMB}"
                     echo "this is CRUMB: ${CRUMB}"
                     //******************************************************
-                    def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/buildWithParameters \
-                            --data STOP_PODS='true' \
-                            --data BACKUP_DB='false'", returnStdout: true).trim()
+                    def JOB_START = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/${TAG_JOB}/buildWithParameters \
+                            --data STOP_PODS=\'true\' \
+                            --data BACKUP_DB=\'false\'", returnStdout: true).trim()
+                    echo "This is JOB_START: ${JOB_START}"
                     while (true) {
-                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
+                        JOB_RES = sh (script: "curl -s -H ${CRUMB} --user ${USER_NAME}:${API_KEY} -X GET http://${TARGET_HOST}:8080/${PARRENT_JOB}/${TAG_JOB}/lastBuild/api/json | jq -r \".result\"", returnStdout: true).trim()
                         echo "This is JOB_RES: ${JOB_RES}"
                         if ("${JOB_RES}" == "ABORTED") {
                             break
