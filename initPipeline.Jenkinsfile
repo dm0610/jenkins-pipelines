@@ -1,13 +1,20 @@
 
+//Пайплайн удалённого запуска параметризованного multibranch-пайплайна
+
 def HARBOR_IS_AVAILABLE = true
 def JENKINS_JOB_IS_AVAILABLE = true
+
 def CRUMB = ""
-def PARRENT_JOB = "job/mbp-test1"
-def TAG_JOB = "/job/dev"
+
+def PARRENT_JOB = "job/mbp-test1" 
+def TAG_JOB = "/job/dev"    ./по идее работает и на обычном пайплайне - просто TAG_JOB надо указывать пустым: ""
+
 def USER_NAME = "user"
 def PASSWD = "1qaz2wsx"
-def API_KEY = "11244bd7b5e06718b0967446b8f99b0077"
+
+def API_KEY = "11244bd7b5e06718b0967446b8f99b0077" //это всё равно локальный домашний ключ, который ничего не даёт. И он давно удалён
 def TARGET_HOST = "192.168.1.41"
+
 def JOB_STATE = ""
 //def MBP = "Yes"
 pipeline {
@@ -16,6 +23,7 @@ pipeline {
 //    }
 
     stages {
+    //пустой и ненужный шаг, как выяснилось. 
         stage('VALIDATE PARAMETERS') {
             steps {
                 script {
