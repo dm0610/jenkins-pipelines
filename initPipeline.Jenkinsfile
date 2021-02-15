@@ -77,7 +77,7 @@ pipeline {
                             echo "This is JOB_RES: ${JOB_RES}"
                             echo "This is JOB_STATE: ${JOB_STATE}"
                             
-                            if ("${JOB_STATE}" == "red"){
+                            if ( "${JOB_STATE}" == "aborted" || "${JOB_STATE}" == "red" ){
                                 break
                             } else {
                                 continue
